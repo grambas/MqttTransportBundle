@@ -52,7 +52,7 @@ class MqttTransport implements TransportInterface {
     {
         if (null === $this->client || ! $this->connected) {
             $this->client = $this->createClient();
-            $this->logger?->log(Level::Info, 'Connect', ['client connected' => $this->client->isConnected()]);
+            $this->logger?->log(Level::Info, 'Connect', ['client_connected' => $this->client->isConnected()]);
         }
 
         $setting = (new ConnectionSettings())
