@@ -52,7 +52,7 @@ class MqttTransport implements TransportInterface {
     {
         if (null === $this->client || ! $this->connected) {
             $this->client = $this->createClient();
-            $this->logger?->log(Level::Info, 'Connect', ['client_connected' => $this->client->isConnected()]);
+            $this->logger?->log(Level::Info, 'Connect', ['client_connected' =>var_export($this->client->isConnected(), true)]);
         }
 
         $setting = (new ConnectionSettings())
@@ -66,9 +66,9 @@ class MqttTransport implements TransportInterface {
             $this->client->connect($setting, true);
             $this->connected = true;
             $this->logger?->log(Level::Info, 'Connecting', [
-                'last will message' => $setting->getLastWillMessage(),
-                'last will topic'   => $setting->getLastWillTopic(),
-                'client connected'  => $this->client->isConnected(),
+                'last_will_message' => $setting->getLastWillMessage(),
+                'last_will_topic'   => $setting->getLastWillTopic(),
+                'client_connected'  => var_export($this->client->isConnected(), true),
             ]);
 
         } catch (ConfigurationInvalidException|ConnectingToBrokerFailedException $e) {
@@ -136,7 +136,6 @@ class MqttTransport implements TransportInterface {
         // return $envelope;
 
         if ($envelope->getMessage() instanceof MqttMessageInterface) {
-            $this->logger?->log(Level::Info, 'Send method');
             $this->client->publish($envelope->getMessage()->getTopic(), $envelope->getMessage()->getContent(), $envelope->getMessage()->getQos(), $envelope->getMessage()->getRetain());
         }
 

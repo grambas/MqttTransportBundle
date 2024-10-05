@@ -62,8 +62,6 @@ class MqttTransportFactory implements TransportFactoryInterface {
 
         $this->options = $resolver->resolve($settings);
 
-        $this->logger?->log(Level::Info, 'Transport');
-
         return new MqttTransport($this->options, $this->topics, $serializer, $this->logger);
     }
 
